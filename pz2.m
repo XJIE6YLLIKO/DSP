@@ -27,7 +27,7 @@ half_decoded=(xcorr(y1,res)-xcorr(y2,res));
 figure;
 plot(res)
 figure;
-plot((xcorr(y1,res)-xcorr(y2,res)))
+plot(half_decoded)
 
 figure;
 positives=half_decoded>16.5;
