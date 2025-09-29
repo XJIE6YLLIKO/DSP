@@ -19,7 +19,7 @@ for i=1:length(t)
   sig(i)=half_decoded(i)*cos(2*pi*2*sample_rate*t(i));
 end
 spec=fftshift(fft(sig));
-spec(abs(f)>.5*sample_rate)=0;
+spec(abs(f)>1*sample_rate)=0;
 
 plot(f,abs(spec))
 
@@ -37,9 +37,26 @@ plot(t,sig)
 %plot(t,sin(2*pi*sample_rate*t))
 hold on
 plot(t,decoded)
-hold on
-plot(t,.5* (cos(2*pi*sample_rate*t)==1))
-decoded(end-3)
+
+out=[];
+for i=1:length(decoded)
+  if decoded(i)==1
+    out=[out,1];
+  end
+  if decoded(i)==-1
+    out=[out,0];
+  end
+end
+out=out(1:end-1);
+out = sprintf('%d', out);
+
+out = reshape(out,8,[])'
+length(out)
+char(bin2dec(out))'
+
+%hold on
+%plot(t,.5* (cos(2*pi*sample_rate*t)==1))
+%decoded(end-3)
 
 %figure;
 %plot(t,sig)
