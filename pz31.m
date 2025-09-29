@@ -50,8 +50,8 @@ end
 out=out(1:end-1);
 out = sprintf('%d', out);
 
-out = reshape(out,8,[])'
-length(out)
+out = reshape(out,8,[])';
+length(out)/8
 char(bin2dec(out))'
 
 %hold on
