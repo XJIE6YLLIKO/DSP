@@ -1,29 +1,32 @@
 pkg load signal
 
-[y,fs]=audioread("song.wav");
-y=mean(y,2);
-t=0:1/fs:(length(y)-1)*(1/fs);
-f=linspace(-fs/2,fs/2, length(y));
-Y=fftshift(fft(y));
-% plot(f,Y)
-% Y(abs(f)<=2e3)*=10;
-% Y(abs(f)>2e3)=0;
+% Чтение аудиофайла
+[y, fs] = audioread("song.wav");
+y = mean(y, 2);  % Конвертируем в моно, если стерео
 
-% Параметры
-fs = 1000;
-f_low = 150;
-f_high = 250;
-order = 4;
+% Параметры фильтра (используем оригинальный fs)
+f_low = 16e3;
+f_high = f_low+2e3;
+order = 1;
 
-% Создание режекторного фильтра
-wn = [f_low, f_high] / (fs/2);
+% Нормализованные частоты для фильтра Баттерворта
+wn = [f_low, f_high] / (fs / 2);
+
+% Создание коэффициентов режекторного (notch/stop) фильтра
 [b, a] = butter(order, wn, 'stop');
 
-% Анализ
-freqz(b, a, 1024, fs);
-title('Режекторный фильтр 150-250 Гц');
+% Применение фильтра в домене времени (фильтрация нулевой фазы для избежания искажений)
+y_filtered = filtfilt(b, a, y);
 
+% Запись отфильтрованного аудио
+audiowrite("song_out.wav", y_filtered, fs);
 
+% Опционально: визуализация спектра до и после (раскомментируйте для графика)
+N = length(y);
+f = linspace(-fs/2,fs/2, length(y));
+Y_orig = abs(fftshift(fft(y)));
+Y_filt = abs(fftshift(fft(y_filtered)));
 
-y=ifft(ifftshift(Y));
-audiowrite("song_out.wav",y,fs);
+figure(1);
+subplot(3,1,1); plot(f, Y_orig); title('Оригинальный спектр'); xlabel('Частота (Гц)'); ylabel('Амплитуда (дБ)'); xlim([-fs/2 fs/2]);
+subplot(3,1,2); plot(f, Y_filt); title('Спектр после фильтрации'); xlabel('Частота (Гц)'); ylabel('Амплитуда (дБ)'); xlim([-fs/2 fs/2]);
