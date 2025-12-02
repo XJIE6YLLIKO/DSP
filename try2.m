@@ -15,7 +15,11 @@ y_filt = filter(filt.Numerator, 1, y);
 
 
 %% MSG
+<<<<<<< HEAD
 [msg, Fs2] = audioread('sounds/msg2.wav');
+=======
+[msg, Fs2] = audioread('sounds/msg.wav');
+>>>>>>> refs/remotes/origin/main
 msg = mean(msg, 2);
 msg = resample(msg, Fs, Fs2);
 
@@ -24,25 +28,45 @@ wantedF = 2000;
 
 % Оставляем диапазон частот сообщения
 filt2 = designfilt('bandpassfir', 'StopbandFrequency1', 1000, 'PassbandFrequency1', 1100, 'PassbandFrequency2', 2900, 'StopbandFrequency2', 3000, 'PassbandRipple', 1, 'StopbandAttenuation2', 60, 'SampleRate', Fs);
+<<<<<<< HEAD
 
 m2 = filter(filt2.Numerator, filt2.Denominator, msg);
 
+=======
+m2 = filter(filt2.Numerator, filt2.Denominator, msg);
+
+% Погромче
+m2 = m2 * 10;
+
+>>>>>>> refs/remotes/origin/main
 % Согласовываем длину для сложения
 m2 = paddata(m2, length(y_filt));
 
 % Перемещаем сообщение на частоту отверстия в песне 
+<<<<<<< HEAD
 m = m2 .* cos(pi*(pass1+pass2-wantedF*2).*t);
 
 % Складываем аудио
 y_new = y_filt + m/50;
 
 audiowrite('sounds/coded.wav', y_new, Fs);
+=======
+m = m2 .* cos(pi*(pass1+pass2-wantedF*2).*t)*2;
+
+% Складываем аудио
+y_new = y_filt + m;
+
+>>>>>>> refs/remotes/origin/main
 %% DEC
 % Оставляем диапазон частот
 filt3 = designfilt('bandpassfir', 'StopbandFrequency1', pass1, 'PassbandFrequency1', stop1, 'PassbandFrequency2', stop2, 'StopbandFrequency2', pass2, 'PassbandRipple', 1, 'StopbandAttenuation2', 60, 'SampleRate', Fs);
 ms = filter(filt3.Numerator, filt3.Denominator, y_new);
 
 % Возвращаем сообщение на оригинальную частоту
+<<<<<<< HEAD
 mm = ms .* cos(pi*(pass1+pass2-wantedF*2).*t)*100;
+=======
+mm = ms .* cos(pi*(pass1+pass2-wantedF*2).*t)*10;
+>>>>>>> refs/remotes/origin/main
 
 audiowrite('sounds/decoded.wav', mm, Fs);
