@@ -23,11 +23,17 @@ end
 
 audiowrite("res.wav", res, fs1)
 
-figure;
-plot(res)
+figure(1);
+subplot(2,1,1)
+plot(res, 'Color', 'black')
+title('Полученный сигнал')
+xlim([0 length(res)])
 
-figure;
+figure(1);
+subplot(2,1,2)
 half_decoded=(xcorr(res,y1)-xcorr(res,y2));
-plot(half_decoded)
+plot(half_decoded, 'Color', 'black')
+title('Разность ВКР симолов с полученным сигналом')
+xlim([0 length(half_decoded)])
 
 pause

@@ -2,9 +2,11 @@ pkg load signal
 
 [y1,fs]=audioread("sample1.wav");
 [y2,fs]=audioread("sample2.wav");
-[y3,fs]=audioread("res_shit.wav");
+[y3,fs]=audioread("res_.wav");
 
-sample_rate=1/((1/fs)*(length(y1)-1))
+plot(res, 'Color', 'black')
+title('Перезаписанное сообщение')
+xlim([0 length(res)])
 
 half_decoded=(xcorr(y3,y1)-xcorr(y3,y2));
 half_decoded=half_decoded(length(half_decoded)/2:end);
@@ -15,9 +17,7 @@ for i=2:length(half_decoded)-1
   end
 end
 half_decoded=half_decoded>0.7;
-figure(1);
-t=0:1/fs:(length(half_decoded)-1)*(1/fs);
-plot(t,half_decoded)
+
 first_peak=find(half_decoded,1);
 
 decoded=[];
