@@ -17,6 +17,8 @@ img=double(img);
 
 img = (img - double(min(min(img)))) ./ double(max(max(img))) ;
 
+original=img;
+
 figure(1);
 subplot(2,3,3)
 imshow(uint8(img.*255));
@@ -71,5 +73,21 @@ figure(1);
 subplot(2,3,6)
 imshow(img);
 title('ФНЧ+ФНЧ \cdot ФВЧ изображение')
+
+
+
+figure(2);
+
+subplot(1,3,1);
+imshow(sqrt(original));
+title('img^{0.5}');
+
+subplot(1,3,2);
+imshow(original.^2);
+title('img^2');
+
+subplot(1,3,3);
+imshow(sin(pi.*img));
+title('sin(\pi\cdotimg)');
 
 pause

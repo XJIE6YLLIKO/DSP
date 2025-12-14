@@ -45,8 +45,8 @@ OUT = abs(fftshift(fft(out)));
 figure(1);
 subplot(2,3,1); plot(f, Y_orig, 'Color', 'black'); title('Оригинальный спектр'); xlabel('Частота (Гц)'); ylabel('Амплитуда'); xlim([0 fs/2]);
 subplot(2,3,4); plot(f, Y_filt, 'Color', 'black'); title('Спектр после фильтрации'); xlabel('Частота (Гц)'); ylabel('Амплитуда'); xlim([0 fs/2]);
-subplot(2,3,2); plot(f, MSG, 'Color', 'black'); title('Спектр msg'); xlabel('Частота (Гц)'); ylabel('Амплитуда'); xlim([0 10e3]);
-subplot(2,3,5); plot(f, MSG_filt, 'Color', 'black'); title('Спектр msg после фильтра'); xlabel('Частота (Гц)'); ylabel('Амплитуда'); xlim([0 10e3]);
+subplot(2,3,2); plot(f, MSG, 'Color', 'black'); title('Спектр msg'); xlabel('Частота (Гц)'); ylabel('Амплитуда'); xlim([0 fs/2]);
+subplot(2,3,5); plot(f, MSG_filt, 'Color', 'black'); title('Спектр msg после фильтра'); xlabel('Частота (Гц)'); ylabel('Амплитуда'); xlim([0 fs/2]);
 subplot(2,3,6); plot(f, OUT, 'Color', 'black'); title('Спектр out'); xlabel('Частота (Гц)'); ylabel('Амплитуда'); xlim([0 fs/2]);
 
 audiowrite("song_out.wav", out, fs);
